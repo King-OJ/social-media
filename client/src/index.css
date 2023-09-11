@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  @apply h-full w-full;
+}
+
+#root {
+  overflow-x: hidden;
+}
+
+body {
+ @apply font-sans dark:bg-grey900 dark:text-grey0 bg-grey0 text-grey800 text-base md:text-lg;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+{
+  @apply tracking-wider text-lg sm:text-2xl md:text-3xl;
+}
+
+button, a {
+  @apply tracking-wide;
+}
+
+a {
+  @apply  hover:text-primary500 transition duration-200;
+}
+
+.page {
+  @apply container px-4 md:px-10 mx-auto py-10;
+}
