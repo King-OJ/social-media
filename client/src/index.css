@@ -30,10 +30,10 @@ button, a {
   @apply tracking-wide;
 }
 
-a {
+.link {
   @apply  hover:text-primary500 transition duration-200;
 }
 
 .page {
-  @apply container px-4 md:px-10 mx-auto py-10;
+  @apply max-w-7xl px-2 md:px-10 mx-auto py-10;
 }

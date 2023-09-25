@@ -11,8 +11,8 @@ export default function Login() {
           <FloatingLabel  type='email' name='email' labelText="email" defaultValue="clem@gmail.com"/>
           <FloatingLabel type='password' name='password' labelText="password" defaultValue="secret"/>
           <div className="flex justify-between">
-            <button type='submit' className="bg-primary600 px-4 md:px-8 py-1 rounded-md text-sm md:text-lg font-semibold">Sign In</button>
-            <button type='submit' className="bg-primary600 px-4 md:px-8 py-1 rounded-md text-sm md:text-lg font-semibold">Explore The App</button>
+            <button type='submit' className="bg-primary500 px-4 md:px-8 py-1 rounded-md text-sm md:text-lg font-semibold">Sign In</button>
+            <button type='submit' className="bg-primary500 px-4 md:px-8 py-1 rounded-md text-sm md:text-lg font-semibold">Explore The App</button>
           </div>
           <p className="text-xs md:text-sm">
           Don‘t have an account?
