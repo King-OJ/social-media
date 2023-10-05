@@ -1,5 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { Error, Home, AppLayout, Landing, Login, Profile, Register } from './pages'
+import { Error, Dashboard, AppLayout, Landing, Login, Profile, Register } from './pages'
+import { action as registerAction } from './pages/Register';
+import { action as loginAction } from './pages/Login';
+import { loader as dashboardLoader } from './pages/Dashboard';
+import { PostFeeds } from './components';
+import { actions as PostFeedActions, loader as PostsLoader } from './components/PostFeeds';
 
 const router = createBrowserRouter([
   {
@@ -14,14 +19,25 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <Login />,
+        action: loginAction,
       },
       {
         path: 'register',
         element: <Register />,
+        action: registerAction,
       },
       {
-        path: 'home',
-        element: <Home />,
+        path: 'dashboard',
+        element: <Dashboard />,
+        loader: dashboardLoader,
+        children: [
+          {
+            index: true,
+            element: <PostFeeds/>,
+            loader: PostsLoader,
+            action: PostFeedActions,
+          },
+        ]
       },
       {
         path: 'profile',

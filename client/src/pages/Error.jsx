@@ -15,6 +15,7 @@ export default function Error() {
   }
 
   return (
+    
     <div className='h-full container mx-auto grid place-content-center space-y-8 text-center'>
       <p>Something went wrong!</p>
       <span className='tracking-wider'>Go <Link to='/' className='text-primary500'>Back home</Link></span>

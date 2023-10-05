@@ -1,11 +1,12 @@
 import { Outlet } from 'react-router-dom'
-import { MobileMenu, Navbar } from '../components'
+import { MobileMenu } from '../components'
 import { useState, createContext, useContext} from 'react';
 
 const AppContext = createContext()
 
 export default function AppLayout() {
   const [showMobileMenu, setShowMobileMenu] = useState(false)
+  const [showLogoutBox, setShowLogoutBox] = useState(false)
   const [isDarkTheme, setIsDarkTheme] = useState(true)
 
   const toggleTheme = () => {
@@ -24,8 +25,8 @@ export default function AppLayout() {
     console.log("toggle mobile menu");
   };
 
-  const logoutUser = async () => {
-    console.log('logout user');
+  const toggleLogout = async () => {
+    setShowLogoutBox(!showLogoutBox)
   };
 
   return (
@@ -33,15 +34,14 @@ export default function AppLayout() {
     value={{
       toggleTheme,
       toggleMobileMenu,
-      logoutUser,
+      showLogoutBox,
+      toggleLogout,
       showMobileMenu,
       isDarkTheme
     }}
     >
-
-        <Navbar />
-        <Outlet />
-        <MobileMenu />
+      <Outlet />
+      <MobileMenu />
     </AppContext.Provider>
   )
 }

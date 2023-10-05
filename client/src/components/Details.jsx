@@ -5,8 +5,12 @@ import linkedInImg from "../assets/linkedin.png"
 import ProfilePic from "./ProfilePic"
 import Adverts from "./Adverts"
 import postImg from "../assets/info2.jpeg"
+import { useDashboardContext } from "../pages/Dashboard"
 
 export default function Details() {
+
+    const { user } = useDashboardContext()
+
   return (
     <aside className="hidden md:block">
         <div className="sticky top-28">
@@ -17,8 +21,8 @@ export default function Details() {
                         <div className="flex items-center space-x-2">
                             <ProfilePic img={personImg}/>
                             <div className="space-y-1">
-                                <h6 className="text-base font-bold">Fake Man</h6>
-                                <div className="text-sm text-grey500 dark:text-grey200">3 Friends</div>
+                                <h6 className="text-base font-bold">{user.name}</h6>
+                                <div className="text-sm text-grey500 dark:text-grey200">{`${user.friends.length} Friends`}</div>
                             </div>
                         </div>
 
@@ -33,11 +37,11 @@ export default function Details() {
                     <div className="space-y-3 text-sm ">
                         <div className="flex items-center space-x-4">
                             <MdLocationOn />
-                            <span className="text-grey500 dark:text-grey200" >My City</span>
+                            <span className=" capitalize text-grey500 dark:text-grey200" >{user.location}</span>
                         </div>
                         <div className="flex items-center space-x-4">
                             <MdWork />
-                            <span className="text-grey500 dark:text-grey200" >My Job</span>
+                            <span className=" capitalize text-grey500 dark:text-grey200" >{user.job}</span>
                         </div>
                     </div>
                 </div>

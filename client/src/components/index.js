@@ -1,3 +1,6 @@
+export { default as Loading} from "./Loading"
+
+export { default as SubmitBtn } from "./SubmitBtn"
 export { default as Navbar} from "./Navbar"
 export { default as Logo} from "./Logo"
 export { default as FloatingLabel} from "./FloatingLabel"

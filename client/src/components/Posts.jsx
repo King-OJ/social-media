@@ -1,12 +1,13 @@
-import posts from "../utils/posts";
 import Post from "./Post";
 
-export default function Posts() {
+// eslint-disable-next-line react/prop-types
+export default function Posts( { posts }) {
   return (
     <ul className="space-y-4 md:space-y-8 mt-6">
         {
-            posts.map((post, index)=> {
-                return <Post post={post} key={index} />
+            // eslint-disable-next-line react/prop-types
+            posts.map((post)=> {
+                return <Post post={post} key={post._id} />
             })
         }
         
