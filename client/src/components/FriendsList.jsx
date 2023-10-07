@@ -1,7 +1,12 @@
-import ProfilePic from "./ProfilePic"
+import { Form } from "react-router-dom"
+// import ProfilePic from "./ProfilePic"
+import { useDashboardContext } from "../pages/Dashboard"
 
 // eslint-disable-next-line react/prop-types
 export default function FriendsList({ friends, icon}) {
+
+  const { followFriend, user } = useDashboardContext()
+
   return (
     <ul className="mt-6">
             {
@@ -15,13 +20,18 @@ export default function FriendsList({ friends, icon}) {
                       <h6 className="capitalize text-sm text-grey500 dark:text-grey200">{friend.location}</h6>
                     </div>
                   </div>
+                  
+                  { user.role !== 'admin' &&
+                    <Form  method="post">
+                      <button onClick={()=>followFriend(friend)} name="intent" value="followFriend" className="ml-1 flex flex-col items-center">
+                        <span className="text-base text-grey0 p-[6px] bg-primary600 rounded-full">
+                          {icon}
+                        </span>
+                        <span className="mt-1 text-xs">Follow</span>
+                      </button>
+                    </Form>
+                    }
 
-                  <button className="ml-1 flex flex-col items-center">
-                    <span className="text-base text-grey0 p-[6px] bg-primary600 rounded-full">
-                      {icon}
-                    </span>
-                    <span className="mt-1 text-xs">Follow</span>
-                  </button>
                 </li>
               })
             }

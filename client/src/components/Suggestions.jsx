@@ -6,7 +6,7 @@ import { useDashboardContext } from "../pages/Dashboard"
 
 export default function Suggestions() {
 
-  const { members } = useDashboardContext()
+  const { members, user } = useDashboardContext()
 
   return (
     <aside className="hidden lg:block"> 
@@ -14,7 +14,7 @@ export default function Suggestions() {
         <Adverts img={postImg} />
 
         <div className="mt-6 bg-grey10 dark:bg-grey800 shadow-lg rounded-md p-3 space-y-4 w-full">
-          <h6 className="text-base font-bold">People you may know</h6>
+          <h6 className="text-base text-center font-bold">{user.role === 'admin'? "All Users" : "People you may know"}</h6>
 
           <FriendsList friends={members} icon={<MdPersonAdd />} />
             

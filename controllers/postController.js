@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { BadRequestError, NotFoundError } from '../errors/customErrors.js';
 import Post from '../models/PostModel.js'
+import User from '../models/UserModel.js';
 
 export const createPost = async (req, res)=> {
     req.body.postedBy = req.user.userId;
@@ -63,10 +64,18 @@ export const getAllPosts = async (req, res)=> {
         .sort('-createdAt')
     }
     else {
-        //fetch posts for all friends
-        posts = await Post.find({ postedBy : req.user.userId})
+        const user = await User.find({_id: req.user.userId})
+
+        posts = await Post.find({ $or: [ 
+            { postedBy : { $eq: req.user.userId } },
+            { "postedBy": { 
+                $in: user[0].friends
+            }}
+         ] })
+        
         .populate('postedBy', '-friends')
         .sort('-createdAt')
+
     }
     
 

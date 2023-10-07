@@ -53,7 +53,7 @@ export default function Login() {
         <div className="flex justify-center w-full">
           <Form method='post' className='w-11/12 max-w-2xl space-y-6 bg-grey10 dark:bg-grey800 py-6 px-4 rounded-xl shadow-lg'>
             <p className='font-semibold text-sm md:text-lg'>Login to your Sociopedia Account. The social media for SocioPaths!</p>
-            <FloatingLabel  type='email' name='email' labelText="email" defaultValue="talk2clemzy2@gmail.com"/>
+            <FloatingLabel  type='email' name='email' labelText="email" defaultValue="talk2clemzy3@gmail.com"/>
             <FloatingLabel type='password' name='password' labelText="password" defaultValue="123456"/>
             <div className="flex justify-between">
               <SubmitBtn text="login" actionText="logging in" />

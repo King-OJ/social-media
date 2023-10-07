@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigation } from "react-router-dom";
+import { redirect, useLoaderData, useNavigation } from "react-router-dom";
 import CreatePost from "./CreatePost";
 import Posts from "./Posts";
 import customFetch from "../../utilities/customFetch";
@@ -21,7 +21,6 @@ export const actions = async ({ request })=> {
   const data = Object.fromEntries(formData);
   let intent = formData.get('intent')
   if(intent === "createPost"){
-    
     const { caption } = data
     try {
       await customFetch.post('/post', {caption} )
@@ -33,11 +32,10 @@ export const actions = async ({ request })=> {
     }
     
   }
-  else if(intent === "addComment"){
-    console.log(data);
-    return data
+  else if(intent === "unfollowFriend"){
+    // toast.success("unfollow friend");
+    return redirect('/dashboard');
   }
-
 }
 
 export default function PostFeeds() {
@@ -55,7 +53,7 @@ export default function PostFeeds() {
         <div>Loading</div>
         :
         posts.length < 1 ?
-        <div className="md:space-y-8 mt-6 text-center">There are no posts to display. Add friends to see their posts.</div>
+        <div className="md:space-y-8 mt-6 text-center">There are no posts to display. Create a post or follow friends to see their posts.</div>
         :
         <Posts posts={posts} />
       }

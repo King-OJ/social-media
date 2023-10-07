@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Error, Dashboard, AppLayout, Landing, Login, Profile, Register } from './pages'
 import { action as registerAction } from './pages/Register';
 import { action as loginAction } from './pages/Login';
-import { loader as dashboardLoader } from './pages/Dashboard';
+import { multiFormActions as dashboardAction, loader as dashboardLoader } from './pages/Dashboard';
 import { PostFeeds } from './components';
 import { actions as PostFeedActions, loader as PostsLoader } from './components/PostFeeds';
 
@@ -30,6 +30,7 @@ const router = createBrowserRouter([
         path: 'dashboard',
         element: <Dashboard />,
         loader: dashboardLoader,
+        action: dashboardAction,
         children: [
           {
             index: true,

@@ -2,21 +2,35 @@
 import { MdPersonRemove, MdShare, MdComment, MdThumbUp, MdSend } from 'react-icons/md'
 import ProfilePic from './ProfilePic'
 import { Form } from 'react-router-dom'
+import { useDashboardContext } from '../pages/Dashboard'
 
 export default function Post({ post }) {
     const { caption, comments, likes , postedBy } = post
     const { name  } = postedBy
+    const { unfollowFriend, user } = useDashboardContext()
 
   return <li className="p-3 rounded-md shadow-md space-y-2 md:space-y-4 bg-grey10 dark:bg-grey800">
             <div className="flex justify-between items-center">
                 <div className="flex space-x-4 items-center">
                     <ProfilePic img={post.authorProfilePic}/>
-                    <h5 className="text-sm font-bold">{name}</h5>
+                    <h5 className="text-sm font-bold">{name || "admin"}</h5>
                 </div>
+                
+                {
+                user.role == "admin" ? null 
+                :
+                postedBy._id !== user._id
+                    &&
+                    <Form  method="post">
+                        <button onClick={()=> unfollowFriend(postedBy) } type='submit' name="intent" value="unfollowFriend" className="ml-1 flex flex-col items-center">
+                        <span className="text-base text-grey0 p-[6px] bg-primary600 rounded-full">
+                            <MdPersonRemove />
+                        </span>
+                        <span className="mt-1 text-xs">Unfollow</span>
+                        </button>
+                    </Form>
+                  }
 
-                <button className="ml-1 text-xl text-grey0 xl:text-2xl p-1 lg:p-2 bg-primary600 rounded-full">
-                    <MdPersonRemove />
-                </button>
             </div>
 
             <p className='text-sm lg:text-base'>{caption}</p>
