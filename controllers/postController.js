@@ -37,22 +37,12 @@ export const sharePost = async (req, res)=> {
 }
 
 export const getUserPosts = async (req, res)=> {
-    const posts = await Post.find({ createdBy: req.params.id })
+    const posts = await Post.find({ postedBy: req.params.id })
 
     if(!posts) {
         throw new BadRequestError(`Invalid posts requests`)
     }
-
-    res.status(StatusCodes.OK).json({ posts })
-}
-
-export const getFriendsPosts = async (req, res)=> {
-    const posts = await Post.find({ createdBy: req.user.userId })
-
-    if(!posts) {
-        throw new BadRequestError(`Invalid posts requests`)
-    }
-
+    
     res.status(StatusCodes.OK).json({ posts })
 }
 

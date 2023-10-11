@@ -14,6 +14,13 @@ export const getCurrentUser = async (req, res)=> {
     res.status(StatusCodes.OK).json({ user: userWithoutPassword });
 }
 
+export const getUserProfile = async (req, res)=> {
+    const user = await User.findOne({ _id: req.params.id })
+    .populate('friends', '-password')
+    const userWithoutPassword = user.toJSON()
+    res.status(StatusCodes.OK).json({ user: userWithoutPassword });
+}
+
 export const getAllUsers = async (req, res)=> {
     let users
     if(req.user.role == 'admin'){

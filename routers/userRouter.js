@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { followUser, getAllUsers, getCurrentUser, getPeopleYouMayKnow, unfollowUser, updateProfile } from '../controllers/userController.js';
+import { followUser, getAllUsers, getCurrentUser, getPeopleYouMayKnow, getUserProfile, unfollowUser, updateProfile } from '../controllers/userController.js';
 
 
 const router = Router();
@@ -10,6 +10,6 @@ router.route("/current-user").get(getCurrentUser)
 router.route("/update-profile").patch(updateProfile)
 router.route("/follow-user/:id").patch(followUser)
 router.route("/unfollow-user/:id").patch(unfollowUser)
-router.route("/profile/:id").get(getCurrentUser)
+router.route("/profile/:id").get(getUserProfile)
 
 export default router

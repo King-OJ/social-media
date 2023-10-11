@@ -3,8 +3,10 @@ import { Error, Dashboard, AppLayout, Landing, Login, Profile, Register } from '
 import { action as registerAction } from './pages/Register';
 import { action as loginAction } from './pages/Login';
 import { multiFormActions as dashboardAction, loader as dashboardLoader } from './pages/Dashboard';
-import { PostFeeds } from './components';
+import { PostFeeds, ProfilePostFeeds } from './components';
 import { actions as PostFeedActions, loader as PostsLoader } from './components/PostFeeds';
+import { loader as profileLoader } from './pages/Profile';
+import { actions as ProfilePostAction } from './components/ProfilePostFeeds';
 
 const router = createBrowserRouter([
   {
@@ -41,8 +43,16 @@ const router = createBrowserRouter([
         ]
       },
       {
-        path: 'profile',
+        path: 'profile/:id',
         element: <Profile />,
+        loader: profileLoader,
+        children: [
+          {
+            index: true,
+            element: <ProfilePostFeeds/>,
+            action: ProfilePostAction,
+          },
+        ]
       },
     ]
   }

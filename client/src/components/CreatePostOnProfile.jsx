@@ -2,12 +2,12 @@ import ProfilePic from "./ProfilePic"
 import personImg from "../assets/p1.jpeg"
 import { MdImage, MdVideoFile, MdAttachment, MdAudioFile } from 'react-icons/md'
 import { Form, useNavigation } from "react-router-dom"
-import { useDashboardContext } from "../pages/Dashboard"
+import { useProfileContext } from "../pages/Profile"
 
-export default function CreatePost() {
+export default function CreatePostOnProfile() {
     const navigation = useNavigation()
     const isSubmitting = navigation.state === 'submitting';
-    const { user } = useDashboardContext()
+    const { user } = useProfileContext()
   return (
     <Form method="post" className="sticky top-16 md:top-28 bg-grey10 px-4 dark:bg-grey800 shadow-lg rounded-md divide-y-[1px]">
         <div className="py-3 md:py-5 flex items-center space-x-3">

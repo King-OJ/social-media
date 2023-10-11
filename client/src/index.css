@@ -34,6 +34,10 @@ button:disabled {
   @apply cursor-wait bg-opacity-80;
 }
 
+button > svg {
+  @apply text-lg;
+}
+
 .link {
   @apply  hover:text-primary500 transition duration-200;
 }

@@ -2,10 +2,12 @@ import { MdMenu, MdSunny, MdDarkMode, MdPerson } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import Logo from './Logo'
 import { useAppContext } from '../pages/AppLayout';
-import { useDashboardContext } from '../pages/Dashboard';
+// import { useDashboardContext } from '../pages/Dashboard';
+// import { useProfileContext } from '../pages/Profile';
 
-export default function Navbar() {
-  const { logout } = useDashboardContext()
+// eslint-disable-next-line react/prop-types
+export default function Navbar( { logout }) {
+  
 
   const {isDarkTheme, toggleTheme, toggleMobileMenu, toggleLogout, showLogoutBox} = useAppContext()
   

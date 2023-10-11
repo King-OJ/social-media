@@ -17,22 +17,8 @@ export const loader = async () => {
 export const multiFormActions = async ({ request })=> {
 
   const formData = await request.formData();
-  const data = Object.fromEntries(formData);
   let intent = formData.get('intent')
-  if(intent === "createPost"){
-    
-    const { caption } = data
-    try {
-      await customFetch.post('/post', {caption} )
-      toast.success("Post created!")
-      return null;
-    } catch (error) {
-      toast.error(error?.response?.data?.msg);
-      return error;
-    }
-    
-  }
-  else if(intent === "followFriend"){
+  if(intent === "followFriend"){
     // toast.success("unfollow friend");
     return null;
   }
@@ -88,13 +74,12 @@ export default function Dashboard() {
       members,
       followFriend,
       unfollowFriend,
-      logout
     }}>
-      <Navbar />
+      <Navbar logout={logout}/>
       <div className="page">
         <div className="relative grid grid-flow-col md:gap-4 md:grid-cols-3 lg:grid-cols-4">
           <Details />
-          <Outlet />
+          <Outlet context={ user }/>
           <Suggestions />
         </div>
       </div>

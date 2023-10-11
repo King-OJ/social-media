@@ -6,6 +6,7 @@ import ProfilePic from "./ProfilePic"
 import Adverts from "./Adverts"
 import postImg from "../assets/info2.jpeg"
 import { useDashboardContext } from "../pages/Dashboard"
+import { Link } from "react-router-dom"
 
 export default function Details() {
 
@@ -19,9 +20,9 @@ export default function Details() {
                 <div className="py-4">
                     <div className="flex justify-between">
                         <div className="flex items-center space-x-2">
-                            <ProfilePic img={personImg}/>
+                            <ProfilePic img={personImg} user={user}/>
                             <div className="space-y-1">
-                                <h6 className="text-base font-bold">{user.name}</h6>
+                                <Link to={`/profile/${user._id}`} className="text-base font-bold">{user.name}</Link>
                                 <div className="text-sm text-grey500 dark:text-grey200">{`${user.friends.length} Friends`}</div>
                             </div>
                         </div>
