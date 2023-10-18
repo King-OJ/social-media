@@ -16,8 +16,8 @@ export default function FloatingLabel({ type, name, labelText, defaultValue = ""
     pb-2.5 
     pt-4 
     w-full 
-    text-sm 
-    md:text-base
+    text-xs
+    md:text-sm 
     text-grey800
     dark:text-grey0
     bg-transparent 
@@ -37,7 +37,9 @@ export default function FloatingLabel({ type, name, labelText, defaultValue = ""
     
     absolute
     tracking-wider 
-    text-sm 
+    text-xs
+    md:text-sm 
+    font-semibold
     text-grey800 
     dark:text-grey0  
     duration-300 

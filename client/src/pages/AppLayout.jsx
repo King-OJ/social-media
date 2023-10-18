@@ -9,6 +9,9 @@ export default function AppLayout() {
   const [showLogoutBox, setShowLogoutBox] = useState(false)
   const [isDarkTheme, setIsDarkTheme] = useState(true)
 
+
+  const [isEditingProfile, setIsEditingProfile] = useState(false)
+
   const toggleTheme = () => {
     const htmlElement = document.documentElement;
     if(!htmlElement.classList.contains("dark")){
@@ -29,6 +32,10 @@ export default function AppLayout() {
     setShowLogoutBox(!showLogoutBox)
   };
 
+  function toggleProfileSettings(){
+    setIsEditingProfile(!isEditingProfile)
+  }
+
   return (
     <AppContext.Provider
     value={{
@@ -37,7 +44,9 @@ export default function AppLayout() {
       showLogoutBox,
       toggleLogout,
       showMobileMenu,
-      isDarkTheme
+      isDarkTheme,
+      toggleProfileSettings,
+      isEditingProfile,
     }}
     >
       <Outlet />

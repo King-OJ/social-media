@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import customFetch from "../../utilities/customFetch";
-import { Details,  Navbar,  Suggestions } from "../components";
-import { Outlet, redirect, useLoaderData, useNavigate } from 'react-router-dom';
+import { Details,  EditProfileCard,  Navbar, PostFeeds, Suggestions } from "../components";
+import { redirect, useLoaderData, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 export const loader = async () => {
@@ -46,6 +46,8 @@ export default function Dashboard() {
     })
   }
 
+  
+
   async function followFriend (friend){
     try {
       await customFetch.patch(`/users/follow-user/${friend._id}`)
@@ -68,20 +70,25 @@ export default function Dashboard() {
     } 
   }
 
+ 
+
   return (
     <DashboardContext.Provider value={{
       user,
       members,
       followFriend,
-      unfollowFriend,
+      unfollowFriend
+      
     }}>
       <Navbar logout={logout}/>
       <div className="page">
         <div className="relative grid grid-flow-col md:gap-4 md:grid-cols-3 lg:grid-cols-4">
           <Details />
-          <Outlet context={ user }/>
+          <PostFeeds />
+          {/* <Outlet context={ user }/> */}
           <Suggestions />
         </div>
+        <EditProfileCard user ={user}/>
       </div>
     </DashboardContext.Provider>
   )

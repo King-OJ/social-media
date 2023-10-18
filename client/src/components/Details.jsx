@@ -7,10 +7,12 @@ import Adverts from "./Adverts"
 import postImg from "../assets/info2.jpeg"
 import { useDashboardContext } from "../pages/Dashboard"
 import { Link } from "react-router-dom"
+import { useAppContext } from "../pages/AppLayout"
 
 export default function Details() {
 
     const { user } = useDashboardContext()
+    const { toggleProfileSettings } = useAppContext()
 
   return (
     <aside className="hidden md:block">
@@ -18,16 +20,16 @@ export default function Details() {
         <div className="bg-grey10 dark:bg-grey800 shadow-lg rounded-md px-3 w-full">
             <div className="divide-y-[1px]">
                 <div className="py-4">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-2">
-                            <ProfilePic img={personImg} user={user}/>
+                            <ProfilePic img={personImg} user={user} currentUser={user}/>
                             <div className="space-y-1">
-                                <Link to={`/profile/${user._id}`} className="text-base font-bold">{user.name}</Link>
+                                <Link to={`/profile/${user._id}`} state={{ fromHome: { currentUser: user } }} className="text-base font-bold">{user.name}</Link>
                                 <div className="text-sm text-grey500 dark:text-grey200">{`${user.friends.length} Friends`}</div>
                             </div>
                         </div>
 
-                        <button className="text-xl">
+                        <button onClick={()=>{toggleProfileSettings()}} className="text-xl">
                             <MdSettings/>
                         </button>
 

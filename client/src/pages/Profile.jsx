@@ -1,6 +1,6 @@
 import { MdPersonRemove} from 'react-icons/md'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Navbar, ProfilePostFeeds } from "../components";
+import { EditProfileCard, Navbar, ProfilePostFeeds } from "../components";
 import customFetch from "../../utilities/customFetch";
 import { createContext, useContext } from "react";
 import { Navigate, useLoaderData } from "react-router-dom";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { MdArrowBack, MdEdit, MdFacebook } from "react-icons/md";
 import p1 from '../assets/p1.jpeg'
 import FriendsList from '../components/FriendsList';
+import { useAppContext } from './AppLayout';
 
 const ProfileContext = createContext();
 
@@ -29,7 +30,8 @@ export default function Profile() {
   const { currentUser } = fromHome
   const navigate = useNavigate();
   const { user, posts } = useLoaderData();
-  // const { user: currentUser } = useDashboardContext()
+
+  const { toggleProfileSettings } = useAppContext()
 
   async function logout (){
     Navigate("/register")
@@ -76,9 +78,13 @@ export default function Profile() {
             <div>{user.friends.length}</div>
             <div>Followers</div>
           </div>
-          <div className="pl-8 ">
+          <div className="px-8 ">
             <div>256</div>
             <div>Following</div>
+          </div>
+          <div className="pl-8 ">
+            <div>{posts.length}</div>
+            <div>All Posts</div>
           </div>
         </div>
       </div>
@@ -95,16 +101,20 @@ export default function Profile() {
       </ul>
       
       <div className="flex flex-col space-y-2 items-center mt-4">
-         { currentUser._id !== user._id &&
+         { currentUser._id == user._id ?
+        <button onClick={()=>{toggleProfileSettings()}} className="bg-primary600 text-grey0 w-full max-w-xs my-2 py-1 rounded-md font-semibold">Edit profile</button>
+          :
           <>
-          <button className="bg-primary500 w-full max-w-xs py-1 rounded-md font-semibold">{currentUser.friends.find((friend)=> friend === user._id) ? "Unfollow" : "Follow"}</button>
-          <button className="bg-primary500 w-full max-w-xs py-1 rounded-md font-semibold">Message</button></>}
+          <button className="bg-primary600 w-full max-w-xs py-1 rounded-md font-semibold">{currentUser.friends.find((friend)=> friend === user._id) ? "Unfollow" : "Follow"}</button>
+          <button className="bg-primary600 w-full max-w-xs py-1 rounded-md font-semibold">Message</button>
+          </>
+          }
       </div>
 
       <div className="w-full max-w-2xl mx-auto my-16">
         <ul className="border-b-[1px] flex justify-between mb-1 mx-2 md:mx-0 text-sm font-semibold">
           <li>
-            <button className="text-primary500 border-b-[2px]">All posts</button>
+            <button className="text-primary500">All posts</button>
           </li>
           <li>
             <button>Photos</button>
@@ -125,6 +135,7 @@ export default function Profile() {
         </div>
       </div>
 
+      <EditProfileCard user={currentUser} />
     </div>
     </ProfileContext.Provider>
   )

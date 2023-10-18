@@ -1,13 +1,18 @@
-import { Form, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import ProfilePic from "./ProfilePic"
 
 // eslint-disable-next-line react/prop-types
-export default function FriendsList({ friends, icon, followFriend, currentUser}) {
+export default function FriendsList({ friends, followFriend, currentUser}) {
+ 
   return (
     <ul>
             {
               // eslint-disable-next-line react/prop-types
               friends.map((friend)=> {
+
+                // eslint-disable-next-line react/prop-types
+                const isFriendofCurrentUser = currentUser.friends.find((user) => user === friend._id)
+
                 return <li key={friend._id} className="px-3 flex items-center justify-between py-4 hover:bg-grey100 hover:dark:bg-grey700">
                           <div className="space-x-2 flex items-center">
                             <ProfilePic img={friend.location} user={friend} currentUser={currentUser}/>
@@ -21,14 +26,11 @@ export default function FriendsList({ friends, icon, followFriend, currentUser})
                           
                           // eslint-disable-next-line react/prop-types
                           currentUser.role !== 'admin' &&
-                            <Form  method="post">
-                              <button onClick={()=>followFriend(friend)} name="intent" value="followFriend" className="ml-1 flex flex-col items-center">
-                                <span className="text-base text-grey0 p-[6px] bg-primary600 rounded-full">
-                                  {icon}
-                                </span>
-                                <span className="mt-1 text-xs">Follow</span>
+                            
+                              <button onClick={()=>followFriend(friend)} className="ml-1">
+                                <span className={isFriendofCurrentUser ? "border border-primary600 px-2 py-1 capitalize rounded-full text-xs md:text-sm font-semibold" : "font-semibold text-xs md:text-sm bg-primary600 text-grey0 shadow-sm rounded-full px-2 py-1 capitalize"}>{isFriendofCurrentUser ? "unfollow" : "follow"}</span>
                               </button>
-                            </Form>
+                            
                             }
                         </li>
                       

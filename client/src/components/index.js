@@ -1,7 +1,9 @@
+export { default as Loader } from "./Loader"
+
+export { default as EditProfileCard } from "./EditProfileCard"
+
 export { default as CreatePostOnProfile } from "./CreatePostOnProfile"
-
 export { default as Loading} from "./Loading"
-
 export { default as SubmitBtn } from "./SubmitBtn"
 export { default as Navbar} from "./Navbar"
 export { default as Logo} from "./Logo"
