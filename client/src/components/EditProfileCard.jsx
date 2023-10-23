@@ -1,7 +1,7 @@
 import { MdClose } from "react-icons/md"
 import FloatingLabel from "./FloatingLabel"
 import { useAppContext } from "../pages/AppLayout"
-import p1 from '../assets/p1.jpeg'
+import { Form } from "react-router-dom"
 
 // eslint-disable-next-line react/prop-types
 export default function EditProfileCard({ user }) {
@@ -11,7 +11,7 @@ export default function EditProfileCard({ user }) {
   return (
     <div className="fixed bottom-0 max-h-[600px]">
         <div className={isEditingProfile ? "w-[300px] rounded-md shadow-lg translate-y-0 bg-grey10 dark:bg-grey800 transition-all duration-200" : "w-[300px] rounded-md shadow-sm transition-all duration-200 translate-y-full bg-grey200 dark:bg-grey600 "}> 
-            <div className="pb-6 px-4 space-y-6 w-full">
+            <Form method="post" encType='multipart/form-data' className="pb-6 px-4 space-y-6 w-full">
                 <div className="mb-6 flex pt-2">
                     <h6 className="flex-1 text-base font-bold">Edit Profile</h6>
                     <button onClick={()=>toggleProfileSettings()} className="p-[3px] f border rounded-full">
@@ -36,9 +36,9 @@ export default function EditProfileCard({ user }) {
                 <FloatingLabel type='text' name='job' labelText="Job" defaultValue={user.job} />
                 <FloatingLabel type='email' name='email' labelText="email" defaultValue={user.email}/>
                 <div className="flex justify-center">
-                    <button type="submit" className="bg-primary600 shadow-md text-grey0 px-6 py-1 text-sm rounded-md font-semibold">Update Profile</button>
+                    <button type="submit" name="intent" value="updateProfile" className="bg-primary600 shadow-md text-grey0 px-6 py-1 text-sm rounded-md font-semibold">Update Profile</button>
                 </div>
-            </div>
+            </Form>
         </div>
     </div>
   )

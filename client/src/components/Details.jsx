@@ -1,5 +1,4 @@
 import {  MdEdit, MdLocationOn, MdSettings, MdWork } from "react-icons/md"
-import personImg from "../assets/p1.jpeg"
 import twitterImg from "../assets/twitter.png"
 import linkedInImg from "../assets/linkedin.png"
 import ProfilePic from "./ProfilePic"
@@ -22,7 +21,7 @@ export default function Details() {
                 <div className="py-4">
                     <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-2">
-                            <ProfilePic img={personImg} user={user} currentUser={user}/>
+                            <ProfilePic img={user.avatar} user={user} currentUser={user}/>
                             <div className="space-y-1">
                                 <Link to={`/profile/${user._id}`} state={{ fromHome: { currentUser: user } }} className="text-base font-bold">{user.name}</Link>
                                 <div className="text-sm text-grey500 dark:text-grey200">{`${user.friends.length} Friends`}</div>

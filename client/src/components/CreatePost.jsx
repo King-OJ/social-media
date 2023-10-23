@@ -1,5 +1,4 @@
 import ProfilePic from "./ProfilePic"
-import personImg from "../assets/p1.jpeg"
 import { MdImage, MdVideoFile, MdAttachment, MdAudioFile } from 'react-icons/md'
 import { Form, useNavigation } from "react-router-dom"
 import { useDashboardContext } from "../pages/Dashboard"
@@ -11,7 +10,7 @@ export default function CreatePost() {
   return (
     <Form method="post" className="sticky top-16 md:top-28 bg-grey10 px-4 dark:bg-grey800 shadow-lg rounded-md divide-y-[1px]">
         <div className="py-3 md:py-5 flex items-center space-x-3">
-            <ProfilePic user={user} img={personImg}/>
+            <ProfilePic user={user} img={user.avatar}/>
             <input name="caption" type="text" className="flex-1 p-2 pl-3 text-sm md:text-base rounded-full outline-none dark:bg-grey700 dark:text-grey0 text-grey1000" placeholder="Whats on your mind?"/>
         </div>
 

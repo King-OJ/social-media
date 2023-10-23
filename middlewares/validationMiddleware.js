@@ -59,20 +59,20 @@ export const validateLoginRequest = withValidationErrors([
 export const validateUpdateUserRequest = withValidationErrors([
     body("name")
         .notEmpty()
-            .withMessage("name is required!"),
+            .withMessage("name cannot be empty!"),
     body("email")
         .notEmpty()
-            .withMessage("email is required!")
+            .withMessage("email cannot be empty!")
         .isEmail()
             .withMessage("invalid email format")
         .custom(
-            async(email)=> {
+            async(email, { req })=> {
                 const user = await User.findOne({ email });
                 if (user && user._id.toString() !== req.user.userId) {
-                    throw new Error('email already exists');
+                    throw new BadRequestError('email already in use');
                 }
             }
-        ),
-        body('job').notEmpty().withMessage('job is required'),
+        )
+        ,body('job').notEmpty().withMessage('job is required'),
         body('location').notEmpty().withMessage('location is required'),
 ])

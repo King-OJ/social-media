@@ -3,12 +3,19 @@ import 'express-async-errors';
 import morgan from "morgan";
 import * as dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
+import cloudinary from 'cloudinary';
 import mongoose from "mongoose";
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET,
+  });
 
 //to display requests routes in console while app is in development
 if(process.env.NODE_ENV) {

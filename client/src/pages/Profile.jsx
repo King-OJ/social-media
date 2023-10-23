@@ -14,10 +14,9 @@ const ProfileContext = createContext();
 
 export const loader = async ({ params }) => {
   try {
-    
     const { data } = await customFetch.get(`/users/profile/${params.id}`);
     const response = await customFetch.get(`/post/${params.id}`);
-    return { user: data.user, posts: response.data.posts }
+    return { profileOwner: data.user, posts: response.data.posts }
   } catch (error) {
     return error;
   }
@@ -29,7 +28,7 @@ export default function Profile() {
   const { fromHome } = location.state;
   const { currentUser } = fromHome
   const navigate = useNavigate();
-  const { user, posts } = useLoaderData();
+  const { profileOwner, posts } = useLoaderData();
 
   const { toggleProfileSettings } = useAppContext()
 
@@ -44,7 +43,7 @@ export default function Profile() {
 
   return (
     <ProfileContext.Provider value={{
-      user,
+      user: profileOwner,
       posts
     }}>
     <Navbar logout={logout}/>
@@ -53,7 +52,7 @@ export default function Profile() {
         <button onClick={()=> navigate(-1) }>
           <MdArrowBack size={23} />
         </button>
-        <h3 className="font-bold flex-1  text-center">{currentUser._id === user._id ? `My profile` : `${user.name}'s profile`}</h3>
+        <h3 className="font-bold flex-1  text-center">{currentUser._id === profileOwner._id ? `My profile` : `${profileOwner.name}'s profile`}</h3>
         
       </div>
     
@@ -62,7 +61,7 @@ export default function Profile() {
           <img src={p1} alt="" className="w-full max-w-lg max-h-auto object-contain" />
         </div>
         {
-          currentUser._id === user._id &&
+          currentUser._id === profileOwner._id &&
           <button className="mt-2 text-sm flex items-center space-x-3">
           <span>Profile Picture</span> 
           <MdEdit />
@@ -71,11 +70,11 @@ export default function Profile() {
       </div>
 
       <div className="space-y-2 text-center">
-        <h4 className="text-sm lg:text-xl font-semibold">{`${user.job}`}</h4>
-        <h5 className="text-sm lg:text-xl font-semibold">{`${user.location}`}</h5>
+        <h4 className="text-sm lg:text-xl font-semibold">{`${profileOwner.job}`}</h4>
+        <h5 className="text-sm lg:text-xl font-semibold">{`${profileOwner.location}`}</h5>
         <div className="flex items-center divide-x-2 justify-center">
           <div className="pr-8 ">
-            <div>{user.friends.length}</div>
+            <div>{profileOwner.friends.length}</div>
             <div>Followers</div>
           </div>
           <div className="px-8 ">
@@ -101,11 +100,11 @@ export default function Profile() {
       </ul>
       
       <div className="flex flex-col space-y-2 items-center mt-4">
-         { currentUser._id == user._id ?
+         { currentUser._id == profileOwner._id ?
         <button onClick={()=>{toggleProfileSettings()}} className="bg-primary600 text-grey0 w-full max-w-xs my-2 py-1 rounded-md font-semibold">Edit profile</button>
           :
           <>
-          <button className="bg-primary600 w-full max-w-xs py-1 rounded-md font-semibold">{currentUser.friends.find((friend)=> friend === user._id) ? "Unfollow" : "Follow"}</button>
+          <button className="bg-primary600 w-full max-w-xs py-1 rounded-md font-semibold">{currentUser.friends.find((friend)=> friend === profileOwner._id) ? "Unfollow" : "Follow"}</button>
           <button className="bg-primary600 w-full max-w-xs py-1 rounded-md font-semibold">Message</button>
           </>
           }
@@ -127,8 +126,8 @@ export default function Profile() {
 
       <div className="grid grid-flow-col gap-4 col-span-3 my-16">
         <div className=" md:col-span-1 self-start bg-grey10 dark:bg-grey800 shadow-lg rounded-md">
-          <h6 className="py-4 px-3 text-base font-bold">{currentUser._id === user._id ? "Your Friends" : `${user.name}'s Friends`}</h6>
-          <FriendsList friends={user.friends} currentUser={currentUser} icon={<MdPersonRemove />}/>
+          <h6 className="py-4 px-3 text-base font-bold">{currentUser._id === profileOwner._id ? "Your Friends" : `${profileOwner.name}'s Friends`}</h6>
+          <FriendsList friends={profileOwner.friends} currentUser={profileOwner._id === currentUser._id ? profileOwner : currentUser} icon={<MdPersonRemove />}/>
         </div>
         <div className="md:col-span-2">
           <ProfilePostFeeds />

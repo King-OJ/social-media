@@ -3,22 +3,22 @@ import { MdPersonRemove, MdShare, MdComment, MdThumbUp, MdSend } from 'react-ico
 import ProfilePic from './ProfilePic'
 import { Form, Link } from 'react-router-dom'
 
-export default function Post({ post, user, unfollowFriend, currentUser }) {
+export default function Post({ post, poster, unfollowFriend, currentUser }) {
     const { caption, comments, likes } = post
   return <li className="p-3 rounded-md shadow-md space-y-2 md:space-y-4 bg-grey10 dark:bg-grey800">
             <div className="flex justify-between items-center">
                 <div className="flex space-x-4 items-center">
-                    <ProfilePic currentUser={ currentUser } user={user} img={post.authorProfilePic}/>
-                    <Link to={`/profile/${user._id}`} state={{ fromHome: { currentUser } }} className="text-sm font-bold">{user.name}</Link>
+                    <ProfilePic currentUser={ currentUser } user={poster} img={poster.avatar}/>
+                    <Link to={`/profile/${poster._id}`} state={{ fromHome: { currentUser: currentUser } }} className="text-sm font-bold">{poster.name}</Link>
                 </div>
                 
                 {
-                user.role == "admin" ? null 
+                poster.role == "admin" ? null 
                 :
-                user._id !== user._id
+                poster._id !== poster._id
                     &&
                     <Form  method="post">
-                        <button onClick={()=> unfollowFriend(user) } type='submit' name="intent" value="unfollowFriend" className="ml-1 flex flex-col items-center">
+                        <button onClick={()=> unfollowFriend(poster) } type='submit' name="intent" value="unfollowFriend" className="ml-1 flex flex-col items-center">
                         <span className="text-base text-grey0 p-[6px] bg-primary600 rounded-full">
                             <MdPersonRemove />
                         </span>

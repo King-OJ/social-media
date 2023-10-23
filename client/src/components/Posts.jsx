@@ -7,7 +7,7 @@ export default function Posts( { posts, unfollowFriend, user, currentUser }) {
         {
             // eslint-disable-next-line react/prop-types
             posts.map((post)=> {
-                return <Post user={post.postedBy || user} currentUser={currentUser} unfollowFriend={unfollowFriend} post={post} key={post._id} />
+                return <Post poster={post.postedBy || user} currentUser={currentUser} unfollowFriend={unfollowFriend} post={post} key={post._id} />
             })
         }
         

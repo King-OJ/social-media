@@ -1,11 +1,22 @@
 import { StatusCodes } from "http-status-codes";
 import User from "../models/UserModel.js";
 import { BadRequestError } from "../errors/customErrors.js";
-import mongoose from "mongoose";
+import cloudinary from 'cloudinary';
+import { formatImage } from "../middlewares/multerMiddleware.js";
 
 export const updateProfile = async (req, res)=> {
-    const user = await User.findByIdAndUpdate(req.user.userId , req.body);
-    res.status(StatusCodes.OK).json({ msg: 'user updated' });
+    const newUser = { ...req.body };
+    delete newUser.intent;
+    if(req.file){
+        const file = formatImage(req.file)
+        const response = await cloudinary.v2.uploader.upload(file);
+        newUser.avatar = response.secure_url;
+        newUser.avatarPublicId = response.public_id;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(req.user.userId, newUser);
+
+    res.status(StatusCodes.OK).json({ msg: 'Profile Updated' });
 }
 
 export const getCurrentUser = async (req, res)=> {

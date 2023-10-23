@@ -12,7 +12,7 @@ import Loader from "./Loader";
 const PostFeedContext = createContext();
 
 export default function PostFeeds() {
-  const user  = useDashboardContext()
+  
   const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
@@ -35,6 +35,8 @@ export default function PostFeeds() {
         }
   , [])
   
+  
+  const { user }  = useDashboardContext()
  
   return (
     <PostFeedContext.Provider value={{
