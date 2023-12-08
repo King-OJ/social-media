@@ -3,6 +3,7 @@ import customFetch from "../../utilities/customFetch";
 import { Details,  EditProfileCard,  Navbar, PostFeeds, Suggestions } from "../components";
 import { redirect, useLoaderData, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useOutletContext } from "react-router-dom";
 
 export const loader = async () => {
   try {
@@ -20,6 +21,7 @@ export const multiFormActions = async ({ request })=> {
   const data = Object.fromEntries(formData);
 
   let intent = formData.get('intent')
+
   if(intent === "updateProfile"){
     
       try {
@@ -31,7 +33,7 @@ export const multiFormActions = async ({ request })=> {
       toast.success(response.data.msg);
       return redirect('/dashboard')
     } catch (error) {
-      toast.error('Profile update failed, try again!')
+      toast.error(error?.response?.data?.msg)
       return redirect('/dashboard')
     }
     
@@ -41,6 +43,8 @@ export const multiFormActions = async ({ request })=> {
     return null;
   }
   
+  return null;
+
 
 }
 
@@ -48,20 +52,10 @@ const DashboardContext = createContext();
 
 export default function Dashboard() {
 
+  const [toggleProfileSettings, isEditingProfile ] = useOutletContext()
+  
   const [isAuthError, setIsAuthError] = useState(false);
   const { user, members } = useLoaderData();
-  
-  const navigate = useNavigate();
-
-  async function logoutUser (){
-    navigate("/login")
-    await customFetch.get('/auth/logout')
-    .then((response)=> {
-      toast.success(response?.data?.msg)
-    })
-  }
-
-  
 
   async function followFriend (friend){
     try {
@@ -97,6 +91,16 @@ export default function Dashboard() {
     }
   );
 
+  const navigate = useNavigate();
+
+  async function logoutUser (){
+    navigate("/login")
+    await customFetch.get('/auth/logout')
+    .then((response)=> {
+      toast.error(response?.data?.msg)
+    })
+  }
+
   useEffect(() => {
     if (!isAuthError) return;
     logoutUser();
@@ -108,18 +112,17 @@ export default function Dashboard() {
       user,
       members,
       followFriend,
-      unfollowFriend
-      
+      unfollowFriend, 
+      toggleProfileSettings
     }}>
       <Navbar logout={logoutUser}/>
       <div className="page">
         <div className="relative grid grid-flow-col md:gap-4 md:grid-cols-3 lg:grid-cols-4">
           <Details />
           <PostFeeds />
-          {/* <Outlet context={ user }/> */}
           <Suggestions />
         </div>
-        <EditProfileCard user ={user}/>
+        <EditProfileCard user ={user} toggleProfileSettings={toggleProfileSettings} isEditingProfile={isEditingProfile} />
       </div>
     </DashboardContext.Provider>
   )

@@ -23,6 +23,7 @@ export default function PostFeeds() {
       try {
             const { data } = await customFetch.get('/post');
             setPosts(data.posts)
+            console.log(data);
             setIsLoading(false)
           } 
       catch (error) {

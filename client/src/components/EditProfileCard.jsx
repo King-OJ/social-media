@@ -1,12 +1,11 @@
+/* eslint-disable react/prop-types */
 import { MdClose } from "react-icons/md"
 import FloatingLabel from "./FloatingLabel"
-import { useAppContext } from "../pages/AppLayout"
 import { Form } from "react-router-dom"
 
 // eslint-disable-next-line react/prop-types
-export default function EditProfileCard({ user }) {
+export default function EditProfileCard({ user, isEditingProfile, toggleProfileSettings  }) {
 
-    const { isEditingProfile, toggleProfileSettings } = useAppContext()
     
   return (
     <div className="fixed bottom-0 max-h-[600px]">
@@ -14,7 +13,7 @@ export default function EditProfileCard({ user }) {
             <Form method="post" encType='multipart/form-data' className="pb-6 px-4 space-y-6 w-full">
                 <div className="mb-6 flex pt-2">
                     <h6 className="flex-1 text-base font-bold">Edit Profile</h6>
-                    <button onClick={()=>toggleProfileSettings()} className="p-[3px] f border rounded-full">
+                    <button type="button" onClick={()=>toggleProfileSettings()} className="p-[3px] f border rounded-full">
                         <MdClose className="text-sm"/>
                     </button>
                 </div>

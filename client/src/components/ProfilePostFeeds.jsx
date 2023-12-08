@@ -44,6 +44,7 @@ export default function ProfilePostFeeds() {
       try {
             const { data } = await customFetch.get(`/post/${id}`);
             setPosts(data.posts)
+            console.log(data);
             setIsLoading(false)
           } 
       catch (error) {

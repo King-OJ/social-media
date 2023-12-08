@@ -1,14 +1,15 @@
 import { MdPersonRemove} from 'react-icons/md'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { EditProfileCard, Navbar, ProfilePostFeeds } from "../components";
 import customFetch from "../../utilities/customFetch";
-import { createContext, useContext } from "react";
-import { Navigate, useLoaderData } from "react-router-dom";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useLoaderData } from "react-router-dom";
 import { toast } from "react-toastify";
-import { MdArrowBack, MdEdit, MdFacebook } from "react-icons/md";
+import { MdArrowBack, MdEdit } from "react-icons/md";
+import { FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
 import p1 from '../assets/p1.jpeg'
 import FriendsList from '../components/FriendsList';
-import { useAppContext } from './AppLayout';
+
 
 const ProfileContext = createContext();
 
@@ -27,29 +28,47 @@ export default function Profile() {
   const location = useLocation();
   const { fromHome } = location.state;
   const { currentUser } = fromHome
-  const navigate = useNavigate();
   const { profileOwner, posts } = useLoaderData();
+  
+  const [isAuthError, setIsAuthError] = useState(false);
+  const [toggleProfileSettings, isEditingProfile ] = useOutletContext()
 
-  const { toggleProfileSettings } = useAppContext()
+  customFetch.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error?.response?.status === 401) {
+        setIsAuthError(true);
+      }
+      return Promise.reject(error);
+    }
+  );
 
-  async function logout (){
-    Navigate("/register")
+  const navigate = useNavigate();
+
+  async function logoutUser (){
+    navigate("/login")
     await customFetch.get('/auth/logout')
     .then((response)=> {
       toast.success(response?.data?.msg)
     })
-    console.log("log out");
   }
+
+  useEffect(() => {
+    if (!isAuthError) return;
+    logoutUser();
+  }, [isAuthError]);
 
   return (
     <ProfileContext.Provider value={{
       user: profileOwner,
       posts
     }}>
-    <Navbar logout={logout}/>
+    <Navbar logout={logoutUser}/>
     <div className="page">
       <div className="flex items-center">
-        <button onClick={()=> navigate(-1) }>
+        <button onClick={()=> navigate(-1) } className='border-[1px] p-1 border-primary500 rounded-full'>
           <MdArrowBack size={23} />
         </button>
         <h3 className="font-bold flex-1  text-center">{currentUser._id === profileOwner._id ? `My profile` : `${profileOwner.name}'s profile`}</h3>
@@ -90,18 +109,18 @@ export default function Profile() {
 
       <ul className="flex justify-center space-x-6 items-center mt-6 text-3xl">
         <li>
-          <a href="#"><MdFacebook/></a>
+          <a href="#"><FaFacebook/></a>
         </li>
         <li>
-          <a href="#"><MdFacebook /></a>
+          <a href="#"><FaTwitter /></a>
         </li><li>
-          <a href="#"><MdFacebook/></a>
+          <a href="#"><FaInstagram/></a>
         </li>
       </ul>
       
       <div className="flex flex-col space-y-2 items-center mt-4">
          { currentUser._id == profileOwner._id ?
-        <button onClick={()=>{toggleProfileSettings()}} className="bg-primary600 text-grey0 w-full max-w-xs my-2 py-1 rounded-md font-semibold">Edit profile</button>
+        <button onClick={()=>toggleProfileSettings()} className="bg-primary600 text-grey0 w-full max-w-xs my-2 py-1 rounded-md font-semibold">Edit profile</button>
           :
           <>
           <button className="bg-primary600 w-full max-w-xs py-1 rounded-md font-semibold">{currentUser.friends.find((friend)=> friend === profileOwner._id) ? "Unfollow" : "Follow"}</button>
@@ -127,14 +146,18 @@ export default function Profile() {
       <div className="grid grid-flow-col gap-4 col-span-3 my-16">
         <div className=" md:col-span-1 self-start bg-grey10 dark:bg-grey800 shadow-lg rounded-md">
           <h6 className="py-4 px-3 text-base font-bold">{currentUser._id === profileOwner._id ? "Your Friends" : `${profileOwner.name}'s Friends`}</h6>
-          <FriendsList friends={profileOwner.friends} currentUser={profileOwner._id === currentUser._id ? profileOwner : currentUser} icon={<MdPersonRemove />}/>
+          {profileOwner.friends.length > 0 ? 
+          <FriendsList friends={profileOwner.friends} currentUser={profileOwner._id === currentUser._id ? currentUser : profileOwner} icon={<MdPersonRemove />}/> 
+            :
+          <div>{`${profileOwner._id === currentUser._id ? currentUser.name : profileOwner.name} Has not made friends yet.`}</div>
+        }
         </div>
         <div className="md:col-span-2">
           <ProfilePostFeeds />
         </div>
       </div>
 
-      <EditProfileCard user={currentUser} />
+      <EditProfileCard user={currentUser} toggleProfileSettings={toggleProfileSettings} isEditingProfile={isEditingProfile}/>
     </div>
     </ProfileContext.Provider>
   )

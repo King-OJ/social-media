@@ -2,15 +2,13 @@ import { Outlet } from 'react-router-dom'
 import { MobileMenu } from '../components'
 import { useState, createContext, useContext} from 'react';
 
+
 const AppContext = createContext()
 
 export default function AppLayout() {
   const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [showLogoutBox, setShowLogoutBox] = useState(false)
   const [isDarkTheme, setIsDarkTheme] = useState(true)
-
-
-  const [isEditingProfile, setIsEditingProfile] = useState(false)
 
   const toggleTheme = () => {
     const htmlElement = document.documentElement;
@@ -32,9 +30,12 @@ export default function AppLayout() {
     setShowLogoutBox(!showLogoutBox)
   };
 
+  const [isEditingProfile, setIsEditingProfile] = useState(false)
+
   function toggleProfileSettings(){
     setIsEditingProfile(!isEditingProfile)
   }
+  
 
   return (
     <AppContext.Provider
@@ -45,11 +46,10 @@ export default function AppLayout() {
       toggleLogout,
       showMobileMenu,
       isDarkTheme,
-      toggleProfileSettings,
-      isEditingProfile,
+      
     }}
     >
-      <Outlet />
+      <Outlet context={[toggleProfileSettings, isEditingProfile]}/>
       <MobileMenu />
     </AppContext.Provider>
   )

@@ -38,6 +38,8 @@ export const sharePost = async (req, res)=> {
 
 export const getUserPosts = async (req, res)=> {
     const posts = await Post.find({ postedBy: req.params.id })
+    .populate('postedBy', "avatar")
+        .sort('-createdAt')
 
     if(!posts) {
         throw new BadRequestError(`Invalid posts requests`)
@@ -50,7 +52,7 @@ export const getAllPosts = async (req, res)=> {
     let posts
     if(req.user.role == "admin") {
         posts = await Post.find({})
-        .populate('postedBy', '-friends')
+        .populate('postedBy', "avatar", '-friends')
         .sort('-createdAt')
     }
     else {

@@ -6,12 +6,11 @@ import Adverts from "./Adverts"
 import postImg from "../assets/info2.jpeg"
 import { useDashboardContext } from "../pages/Dashboard"
 import { Link } from "react-router-dom"
-import { useAppContext } from "../pages/AppLayout"
+
 
 export default function Details() {
 
-    const { user } = useDashboardContext()
-    const { toggleProfileSettings } = useAppContext()
+    const { user, toggleProfileSettings } = useDashboardContext()
 
   return (
     <aside className="hidden md:block">

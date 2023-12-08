@@ -3,6 +3,7 @@ import Img from "../assets/not-found.svg"
 
 export default function Error() {
   const error = useRouteError();
+  console.log(error);
   if (error.status === 404) {
     return (
       <div className='px-4 md:px-10 h-full container mx-auto grid place-content-center space-y-8 text-center'>
